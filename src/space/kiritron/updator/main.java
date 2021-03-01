@@ -16,7 +16,6 @@
 
 package space.kiritron.updator;
 
-import com.formdev.flatlaf.FlatDarculaLaf;
 import space.kiritron.duke_cli.httpconn;
 import space.kiritron.pixel.CheckerDIR;
 import space.kiritron.pixel.GDate;
