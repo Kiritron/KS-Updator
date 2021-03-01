@@ -39,7 +39,7 @@ import static space.kiritron.pixel.filefunc.DirControls.SearchDir;
 
 public class main {
     private static frame fr = new frame();
-    private static Image img = new ImageIcon(main.class.getResource("logo.png")).getImage();
+    private static Image img;
 
     public static void main(String[] args) {
         if (args.length != 0) { // Проверяется, не запущено ли приложение случайным образом. Если вводных параметров нет, то программа закрывается и ничего не происходит.
@@ -53,6 +53,8 @@ public class main {
                 // Тут уже Апдэйтору очевидно ясно, что у целевого приложения есть версии, а значит есть и обновления, следовательно, можно загружать и устанавливать.
                 CheckerDIR.Check("cache");
                 CheckerDIR.Check("cache" + GetPathOfAPP.GetSep() + "downloaded_update");
+
+                img = new ImageIcon(main.class.getResource("logo.png")).getImage();
 
                 fr.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 fr.setIconImage(img);
