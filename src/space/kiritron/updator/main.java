@@ -40,10 +40,37 @@ public class main {
     private static frame fr = new frame();
     private static Image img;
 
+    private static String codename_app, os;
+
     public static void main(String[] args) {
         if (args.length != 0) { // Проверяется, не запущено ли приложение случайным образом. Если вводных параметров нет, то программа закрывается и ничего не происходит.
-            String codename_app = args[0];
+            codename_app = args[0]; // Забираем аргумент. Должен быть один единственный.
+
+            /*/
+             * ФОРМАТ ОБРАЩЕНИЯ К КС АПДЭЙТОР ЧЕРЕЗ АРГУМЕНТЫ
+             * updator.jar <АРГУМЕНТ>
+             * Аргумент выглядит следующим образом: --<кодовое_имя_приложения>-<ос>
+             * Маркер "ос" может быть равен windows, linux или mac.
+             * Маркер "ос" влияет на то, для какой системы Апдэйтор будет скачивать
+             * бинарные файлы.
+            /*/
+
             codename_app = codename_app.replace("--", "");
+
+            if (codename_app.contains("-windows")) {
+                os = "windows";
+                codename_app.replace("-windows", "");
+            }
+
+            if (codename_app.contains("-linux")) {
+                os = "linux";
+                codename_app.replace("-linux", "");
+            }
+
+            if (codename_app.contains("-mac")) {
+                os = "mac";
+                codename_app.replace("-mac", "");
+            }
 
             // Подобный код есть и в init классе КС приложений, но конкретно здесь он выполняет функции проверки, а есть ли вообще версии(а соответственно и обновления)
             // для данного приложения. Таким образом, исключаются ненужные ковыряния на веб-сервере.
@@ -70,7 +97,12 @@ public class main {
     private static void downloadApp(String codename_of_app_on_ks_cdn) {
         new Thread(() -> {
             try {
-                URL url = new URL("https://cdn.kiritron.space/downloads/" + codename_of_app_on_ks_cdn + "/" + codename_of_app_on_ks_cdn + "-latest.zip");
+                URL url;
+                if (os.equals("windows") || os.equals("linux") || os.equals("mac")) {
+                    url = new URL("https://cdn.kiritron.space/downloads/" + codename_of_app_on_ks_cdn + "/" + codename_of_app_on_ks_cdn + "-" + os + "-latest.zip");
+                } else {
+                    url = new URL("https://cdn.kiritron.space/downloads/" + codename_of_app_on_ks_cdn + "/" + codename_of_app_on_ks_cdn + "-latest.zip");
+                }
                 HttpsURLConnection httpConnection = (HttpsURLConnection) (url.openConnection());
 
                 long fileSize = httpConnection.getContentLength();
